@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<script src="https://miro.com/app/static/sdk.1.1.js"></script>
+<script>
+    function Upload() {
+        var fileUpload = document.getElementById("fileUpload");
+        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+        if (regex.test(fileUpload.value.toLowerCase())) {
+            if (typeof (FileReader) != "undefined") {
+                var reader = new FileReader();
+                reader.onload = function (e) { 
+                    var table = document.createElement("table");
+                    var rows = e.target.result.split("\n"); 
+                    var xParam = 2765.0162210794065; var yParam = 429.84819860612595; 
+                    var pRows = document.createElement("p");
+                    pRows.innerHTML = "<strong>Rows readed: <strong> " + rows.length;
+
+                    var pCards = document.createElement("p");
+                    pCards.innerHTML = "<strong>Cards created: </strong>" + (rows.length - 1);
+                    cellsTitle = rows[0].split(",");
+                    for (var i = 1; i < rows.length; i++) {
+                        var cells = rows[i].split(","); 
+                        if (cells.length > 1) {
+                            var row = table.insertRow(-1);
+                            if (i % 10 == 0) { xParam = xParam + 285; yParam = 429.84819860612595;  }
+                            yParam = yParam + 100;
+                            var card = {}; 
+                            card.type = "card";
+                            card.title = cells[0];
+                            card.description = "";  //cells[1];
+                            card.x =  xParam;
+                            card.y = yParam ;
+                            for (var j = 1; j < cells.length; j++) {
+                              card.description += "<strong>" + cellsTitle[j] + ": </strong>" + cells[j] + "<br/>";    
+                            }
+                        }  
+                    miro.board.widgets.create(card); 
+                 }
+                    var dvCSV = document.getElementById("dvCSV");
+                    dvCSV.innerHTML = ""; 
+                    dvCSV.appendChild(pRows); 
+                    dvCSV.appendChild(pCards);
+                }
+                reader.readAsText(fileUpload.files[0]);
+            } else {
+                alert("This browser does not support HTML5.");
+            }
+        } else {
+            alert("Please upload a valid CSV file.");
+        }
+    }
+</script>
+<style>
+body {
+    margin-top: 50px;
+    padding: 0 10px;
+    text-align: center;
+}
+p {
+    font-size: 20px;
+    font-family: Helvetica;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+a {
+    color: #ca1347;
+}
+form {
+    margin-top: 30px;
+}
+input { width: 100%;  }
+input#upload {
+    padding: 10px 20px;
+    margin-top: 15px;
+    background: transparent;
+    border: 2px solid #ca1347;
+    color: #ca1347;
+    font-size: 16px;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+<p>Upload a CSV to create cards on board</p>
+<small>Download a <a href="https://dev.kitestudios.org/Issues-template.csv">template</a></small>
+  <form>
+    <input type="file" name="upload" id="fileUpload" />
+    <input type="button" id="upload" value="Upload" onclick="Upload()" />
+
+   <hr />
+<div id="dvCSV">
+  </form>
+</body>
+</html>
