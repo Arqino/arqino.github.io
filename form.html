@@ -1,24 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
+<link rel="stylesheet" href="https://unpkg.com/mirotone/dist/styles.css">
 <script src="https://miro.com/app/static/sdk.1.1.js"></script>
 <script>
-    function Upload() {
+
+function Upload() {
         var fileUpload = document.getElementById("fileUpload");
         var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
         if (regex.test(fileUpload.value.toLowerCase())) {
             if (typeof (FileReader) != "undefined") {
                 var reader = new FileReader();
+                var widgetID;
                 reader.onload = function (e) { 
                     var table = document.createElement("table");
-                    var rows = e.target.result.split("\n"); 
+
+                    var csv = e.target.result; //console.log(e.target.result);
+                    var result = csv.replace(/"[^"]+"/g, function(v) { 
+                       return v.replace(/\n/g, '<br/>').replace(/,/g, '/');
+                    });
+                    const cards = []
+                    var rows = result.split("\n"); 
                     var xParam = 2765.0162210794065; var yParam = 429.84819860612595; 
                     var pRows = document.createElement("p");
-                    pRows.innerHTML = "<strong>Rows readed: <strong> " + rows.length;
+                    pRows.innerHTML = "Rows readed: <strong> " + rows.length + " (including header)</strong>";
 
                     var pCards = document.createElement("p");
-                    pCards.innerHTML = "<strong>Cards created: </strong>" + (rows.length - 1);
+                    pCards.innerHTML = "Cards created: <strong>" + (rows.length - 1) + "</strong>";
                     cellsTitle = rows[0].split(",");
                     for (var i = 1; i < rows.length; i++) {
                         var cells = rows[i].split(","); 
@@ -28,16 +36,21 @@
                             yParam = yParam + 100;
                             var card = {}; 
                             card.type = "card";
-                            card.title = cells[0];
-                            card.description = "";  //cells[1];
+                            card.title = cells[3];
+                            card.description = cells[4];  //"";  //cells[1];
                             card.x =  xParam;
-                            card.y = yParam ;
-                            for (var j = 1; j < cells.length; j++) {
-                              card.description += "<strong>" + cellsTitle[j] + ": </strong>" + cells[j] + "<br/>";    
-                            }
+                            card.y = yParam;
+
+                            cards.push({
+                                data: card,
+                                tags: [cells[0], cells[1], cells[2], cells[5]]
+                            });
                         }  
-                    miro.board.widgets.create(card); 
-                 }
+                    }
+
+
+                    createCards(cards);
+
                     var dvCSV = document.getElementById("dvCSV");
                     dvCSV.innerHTML = ""; 
                     dvCSV.appendChild(pRows); 
@@ -51,12 +64,52 @@
             alert("Please upload a valid CSV file.");
         }
     }
+
+
+    async function createCards(cards) {
+        for (const card of cards) {
+            await createCard(card)
+        }
+    }
+
+    async function createCard(card) {
+        widgetID = await miro.board.widgets.create(card.data);
+        const tagColors = ['#F24726', '#00AA11', '#298AE2', '#FAD03A']
+        for (let i = 0; i < card.tags.length; i++) {
+            const tag = card.tags[i]
+            console.log('before', tag)
+            const newTag = await createTag(tag, widgetID, tagColors[i])
+            console.log('after', newTag)
+        }
+    }
+
+    async function createTag(tagName, widgetID, color) {
+        var tags = await miro.board.tags.get({title: tagName});
+        console.log('found', tags, widgetID);
+        if (tags.length) { // update
+            var currentIDs = tags[0].widgetIds;
+            currentIDs.push(widgetID[0].id);
+            // console.log(tags[0].id, tagName, currentIDs);
+            return await miro.board.tags.update({ id : tags[0].id, widgetIds: currentIDs});
+        } else {
+            return await miro.board.tags.create({title: tagName, color: color, widgetIds: widgetID});
+        }
+    }
+
 </script>
 <style>
 body {
-    margin-top: 50px;
+    margin-top: 20px;
     padding: 0 10px;
-    text-align: center;
+}
+.container {
+    height: 97%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+h1 {
+    margin-bottom: 20px;
 }
 p {
     font-size: 20px;
@@ -64,35 +117,71 @@ p {
     font-weight: 600;
     margin-bottom: 0;
 }
-a {
-    color: #ca1347;
+#dvCSV p {
+    font-size: 16px;
+    font-weight: normal;
+}
+#dvCSV strong {
+    font-weight: 600;
 }
 form {
     margin-top: 30px;
 }
+input[type="file"] {
+    display: none;
+}
+label.custom-file-upload {
+    display: inline-block;
+    padding: 12px 16px;
+    cursor: pointer;
+    background: #f5f5f7;
+    color: #000;
+}
 input { width: 100%;  }
-input#upload {
+input#upload {  
     padding: 10px 20px;
     margin-top: 15px;
-    background: transparent;
-    border: 2px solid #ca1347;
-    color: #ca1347;
+    background: #4263ff;
+    color: #fff;
     font-size: 16px;
     border-radius: 5px;
     width: 100%;
     cursor: pointer;
 }
+.bottom-bar {
+    display: flex;
+    align-content: center;
+    font-size: 12px;
+}
+.bottom-bar i {
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+.bottom-bar a {
+    margin-left: 8px;
+    width: 100%;
+}
 </style>
 </head>
 <body>
-<p>Upload a CSV to create cards on board</p>
-<small>Download a <a href="https://arqino.github.io/Miro-import-test.csv">template</a></small>
-  <form>
-    <input type="file" name="upload" id="fileUpload" />
-    <input type="button" id="upload" value="Upload" onclick="Upload()" />
+<div class="container">
+    <div>
+        <h1 class="h1">CSV to Cards</h1>
+        <p class="p-medium">Upload a CSV file and generate them as cards on the board</p>
+        <form>
+            <label class="custom-file-upload">
+                <input type="file" id="fileUpload"/>
+                Upload file
+            </label>
+            <input type="button" id="upload" value="Generate cards" class="button button-primary" onclick="Upload()" />
 
-   <hr />
-<div id="dvCSV">
-  </form>
+            <hr />
+            <div id="dvCSV"></div>
+        </form>
+    </div>
+    <div class="bottom-bar"><i class="icon icon-help-question"></i><a href="https://arqino.github.io/Sample_Import.csv">Download template</a></div>
+</div>
 </body>
 </html>
