@@ -8,7 +8,7 @@ librarySvgIcon: '<svg width="19" height="24" viewBox="0 0 19 24" fill="none" xml
 toolbarSvgIcon:
           '<circle cx="12" cy="12" r="9" fill="red" fill-rule="evenodd" stroke="currentColor" stroke-width="2"/>',
             onClick: () => {
-              miro.board.ui.openLeftSidebar('arqino-form.html');
+              miro.board.ui.openLeftSidebar('form.html');
             }
           }
         }
