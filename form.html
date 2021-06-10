@@ -36,14 +36,19 @@ function Upload() {
                             yParam = yParam + 100;
                             var card = {}; 
                             card.type = "card";
-                            card.title = cells[3];
-                            card.description = cells[4];  //"";  //cells[1];
+                            card.title = cells[0];
+                            card.description = cells[1];  //"";  //cells[1];
                             card.x =  xParam;
                             card.y = yParam;
+                            var tags = [];
+
+                            for (var j = 2; j < cells.length; j++) {
+                                tags.push(cells[j]);
+                            }
 
                             cards.push({
                                 data: card,
-                                tags: [cells[0], cells[1], cells[2], cells[5]]
+                                tags: tags //[cells[0], cells[1], cells[2], cells[5]]
                             });
                         }  
                     }
@@ -74,7 +79,7 @@ function Upload() {
 
     async function createCard(card) {
         widgetID = await miro.board.widgets.create(card.data);
-        const tagColors = ['#F24726', '#00AA11', '#298AE2', '#FAD03A']
+        const tagColors = ['#F24726', '#00AA11', '#298AE2', '#FAD03A', '#0A8770','#8B3AF3', '#E405CE', '#D48918']
         for (let i = 0; i < card.tags.length; i++) {
             const tag = card.tags[i]
             console.log('before', tag)
