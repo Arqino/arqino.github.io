@@ -82,7 +82,7 @@ function Upload() {
         const tagColors = ['#F24726', '#00AA11', '#298AE2', '#FAD03A', '#0A8770','#8B3AF3', '#E405CE', '#D48918', '#4B5E00', '#0D1774']
         for (let i = 0; i < card.tags.length; i++) {
             var tag = card.tags[i]
-            tag = tag.replace('\n', '')
+            tag = tag.replace(/(\r\n|\n|\r)/gm, "");
             console.log('before', tag)
             const newTag = await createTag(tag, widgetID, tagColors[i])
             console.log('after', newTag)
