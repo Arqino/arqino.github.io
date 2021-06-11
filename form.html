@@ -20,7 +20,8 @@ function Upload() {
                        return v.replace(/\n/g, '<br/>').replace(/,/g, '/');
                     });
                     const cards = []
-                    var rows = result.split("\n"); 
+                    console.log(result); console.log('  --- ');
+                    var rows = result.split("\n");  console.log(rows);
                     var xParam = 2765.0162210794065; var yParam = 429.84819860612595; 
                     var pRows = document.createElement("p");
                     pRows.innerHTML = "Rows readed: <strong> " + rows.length + " (including header)</strong>";
@@ -83,9 +84,9 @@ function Upload() {
         for (let i = 0; i < card.tags.length; i++) {
             var tag = card.tags[i]
             tag = tag.replace(/(\r\n|\n|\r)/gm, "");
-            console.log('before', tag)
+            //console.log('before', tag)
             const newTag = await createTag(tag, widgetID, tagColors[i])
-            console.log('after', newTag)
+            //console.log('after', newTag)
         }
     }
 
