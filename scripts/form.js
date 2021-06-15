@@ -230,10 +230,13 @@ function Upload() {
                 tags.push(row[i]);
             } 
 
+            var j = 0;
+
             if (foundWidgets.length) {
                 for (const widgetID of foundWidgets) {
                     for (const tag of tags) {
-                        await createTag(tag, widgetID, tagColors[j])
+                        await createTag(tag, widgetID, tagColors[j]);
+                        j++;
                     }
                 }
             }
