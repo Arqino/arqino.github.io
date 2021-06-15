@@ -218,11 +218,11 @@ function Upload() {
 
     async function getCardsOnBoard(csvArray) {
         var cards =  await miro.board.widgets.get();
-        var tags = [];
+        var tags = []; console.log(cards); 
         const tagColors = ['#FF1485', '#43E8B6', '#C9F223', '#FF9A51', '#E755FF','#5E0000']
         for (const row of csvArray) {
-            var foundWidgets = cards.find(element => element.title == row[0]);
-
+            var foundWidgets = cards.filter(element => element.title == row[0]);
+console.log(row[0], foundWidgets);
             for (var i = 1; i < row.length; i++) {
                 tags.push(row[i]);
             }
