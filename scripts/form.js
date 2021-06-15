@@ -227,7 +227,7 @@ function Upload() {
                 tags.push(row[i]);
             }
 
-            if (!empty(found)) {
+            if (found.length) {
                 for (const widget of foundWidgets) {
                     for (var j = 0; j < tags.length; j++) {
                         await createTag(tags[j], widget, tagColors[7])
