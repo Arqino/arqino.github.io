@@ -234,8 +234,10 @@ function Upload() {
 
             if (foundWidgets.length) {
                 for (const widgetID of foundWidgets) {
+                    var widget = [];
+                    widget.push(widgetID);
                     for (const tag of tags) {
-                        await createTag(tag, widgetID, tagColors[j]);
+                        await createTag(tag, widget, tagColors[j]);
                         j++;
                     }
                 }
