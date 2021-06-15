@@ -229,15 +229,15 @@ function Upload() {
             for (var i = 1; i < row.length; i++) {
                 tags.push(row[i]);
             } 
-
+console.log(tags);
             var j = 0;
 
             if (foundWidgets.length) {
-                for (const widgetID of foundWidgets) {
-                    var widget = [];
-                    widget.push(widgetID);
+                for (const widget of foundWidgets) {
+                    var widgets = [];
+                    widgets.push(widget); console.log(widgets);
                     for (const tag of tags) {
-                        await createTag(tag, widget, tagColors[j]);
+                        await createTag(tag, widgets, tagColors[j]);
                         j++;
                     }
                 }
