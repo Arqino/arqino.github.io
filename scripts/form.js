@@ -211,7 +211,7 @@ function Upload() {
 
             var id = widgetID[0] == undefined ? widgetID.id : widgetID[0].id
 
-            currentIDs.push(widgetID[0].id);
+            currentIDs.push(id);
             
             return await miro.board.tags.update({ id : tags[0].id, widgetIds: currentIDs});
         } else {
