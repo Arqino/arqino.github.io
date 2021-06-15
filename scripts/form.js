@@ -205,11 +205,14 @@ function Upload() {
 
     async function createTag(tagName, widgetID, color) {
         var tags = await miro.board.tags.get({title: tagName});
-        console.log('found', tags, widgetID);
+
         if (tags.length) { // update
             var currentIDs = tags[0].widgetIds;
+
+            var id = widgetID[0] == undefined ? widgetID.id : widgetID[0].id
+
             currentIDs.push(widgetID[0].id);
-            // console.log(tags[0].id, tagName, currentIDs);
+            
             return await miro.board.tags.update({ id : tags[0].id, widgetIds: currentIDs});
         } else {
             return await miro.board.tags.create({title: tagName, color: color, widgetIds: widgetID});
