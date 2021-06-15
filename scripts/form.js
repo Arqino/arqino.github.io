@@ -216,7 +216,7 @@ function Upload() {
         }
     }
 
-    async getCardsOnBoard(csvArray) {
+    async function getCardsOnBoard(csvArray) {
         var cards =  await miro.board.widgets.get();
         var tags = [];
         const tagColors = ['#FF1485', '#43E8B6', '#C9F223', '#FF9A51', '#E755FF','#5E0000']
