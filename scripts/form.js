@@ -113,7 +113,7 @@ function CSVToArray( strData, strDelimiter ){
                 var widgetID;
                 reader.onload = function (e) { 
                     var result = CSVToArray(e.target.result, ",");
-
+                    result.splice(0, 1);
                     getCardsOnBoard(result);
                 }
                 reader.readAsText(fileUpload.files[0]);
@@ -216,21 +216,21 @@ function Upload() {
         }
     }
 
-    async function getCardsOnBoard(csvArray) {
+    async function getCardsOnBoard(csvArray) {  
         var cards =  await miro.board.widgets.get();
-        var tags = []; console.log(cards); 
+        var tags = []; 
         const tagColors = ['#FF1485', '#43E8B6', '#C9F223', '#FF9A51', '#E755FF','#5E0000']
-        for (const row of csvArray) {
-            var foundWidgets = cards.filter(element => element.title == row[0]);
-console.log(row[0], foundWidgets);
+        for (const row of csvArray) { 
+           var foundWidgets = cards.filter(element => element.title == row[0]);
+
             for (var i = 1; i < row.length; i++) {
                 tags.push(row[i]);
-            }
+            } 
 
             if (foundWidgets.length) {
-                for (const widget of foundWidgets) {
+                for (const widgetID of foundWidgets) {
                     for (var j = 0; j < tags.length; j++) {
-                        await createTag(tags[j], widget, tagColors[7])
+                        await createTag(tags[j], widgetID, tagColors[j])
                     }
                 }
             }
