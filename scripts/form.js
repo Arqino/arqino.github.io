@@ -222,13 +222,13 @@ function Upload() {
         const tagColors = ['#FF1485', '#43E8B6', '#C9F223', '#FF9A51', '#E755FF','#5E0000']
         for (const row of csvArray) { 
            var foundWidgets = cards.filter(element => element.title == row[0]);
-
+console.log(row[0], foundWidgets);
             for (var i = 1; i < row.length; i++) {
                 tags.push(row[i]);
             } 
 
             if (foundWidgets.length) {
-                for (const widgetID of foundWidgets) {
+                for (const widgetID of foundWidgets) { console.log(widgetID);
                     for (var j = 0; j < tags.length; j++) {
                         await createTag(tags[j], widgetID, tagColors[j])
                     }
