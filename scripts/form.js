@@ -235,7 +235,7 @@ console.log(tags, foundWidgets);
             if (foundWidgets.length) {
                 for (const widget of foundWidgets) {
                     var widgets = [];
-                    widgets.push(widget.id);
+                    widgets.push(widget);
                     await updateCardsWithNewTags(widgets, tags);
 
                     // for (const tag of tags) {
