@@ -234,9 +234,9 @@ console.log(tags, foundWidgets);
 
             if (foundWidgets.length) {
                 for (const widget of foundWidgets) {
-                    // var widgets = [];
-                    // widgets.push(widget);
-                    await updateCardsWithNewTags(widget, tags);
+                    var widgets = [];
+                    widgets.push(widget.id);
+                    await updateCardsWithNewTags(widgets, tags);
 
                     // for (const tag of tags) {
                     //     await createTag(tag, widget, tagColors[j]);
@@ -252,7 +252,7 @@ console.log(tags, foundWidgets);
         for (let i = 0; i < tags.length; i++) {
             var tag = tags[i]
             //tag = tag.replace(/(\r\n|\n|\r)/gm, "");  console.log(tag);
-            console.log(widget.title);
+            
             console.log('before', tag)
             const newTag = await createTag(tag, widget, tagColors[i]); 
             console.log('after', newTag)
