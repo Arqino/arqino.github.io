@@ -222,7 +222,7 @@ function Upload() {
     async function getCardsOnBoard(csvArray) {  
         var cards =  await miro.board.widgets.get();
         
-        const tagColors = ['#FF1485', '#43E8B6', '#C9F223', '#FF9A51', '#E755FF','#5E0000']
+        
         for (const row of csvArray) { 
            var foundWidgets = cards.filter(element => element.title == row[0]);
             var tags = []; 
@@ -230,17 +230,30 @@ function Upload() {
                 tags.push(row[i]);
             } 
 console.log(tags);
-            var j = 0;
+            // var j = 0;
 
             if (foundWidgets.length) {
                 for (const widget of foundWidgets) {
-                    var widgets = [];
-                    widgets.push(widget); console.log(widgets);
-                    for (const tag of tags) {
-                        await createTag(tag, widgets, tagColors[j]);
-                        j++;
-                    }
+                    // var widgets = [];
+                    // widgets.push(widget);
+                    async updateCardsWithNewTags(widget, tags);
+
+                    // for (const tag of tags) {
+                    //     await createTag(tag, widget, tagColors[j]);
+                    //     j++;
+                    // }
                 }
             }
         } 
+    }
+
+    async function updateCardsWithNewTags(widget, tags) {
+        const tagColors = ['#FF1485', '#43E8B6', '#C9F223', '#FF9A51', '#E755FF','#5E0000']
+        for (let i = 0; i < tags.length; i++) {
+            var tag = tags[i]
+            tag = tag.replace(/(\r\n|\n|\r)/gm, "");
+            //console.log('before', tag)
+            const newTag = await createTag(tag, widget, tagColors[i])
+            //console.log('after', newTag)
+        }
     }
