@@ -236,7 +236,7 @@ console.log(tags);
                 for (const widget of foundWidgets) {
                     // var widgets = [];
                     // widgets.push(widget);
-                    async updateCardsWithNewTags(widget, tags);
+                    await updateCardsWithNewTags(widget, tags);
 
                     // for (const tag of tags) {
                     //     await createTag(tag, widget, tagColors[j]);
@@ -251,7 +251,7 @@ console.log(tags);
         const tagColors = ['#FF1485', '#43E8B6', '#C9F223', '#FF9A51', '#E755FF','#5E0000']
         for (let i = 0; i < tags.length; i++) {
             var tag = tags[i]
-            tag = tag.replace(/(\r\n|\n|\r)/gm, "");
+            tag = tag.replace(/(\r\n|\n|\r)/gm, "");  console.log(tag);
             //console.log('before', tag)
             const newTag = await createTag(tag, widget, tagColors[i])
             //console.log('after', newTag)
