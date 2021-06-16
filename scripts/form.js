@@ -205,7 +205,7 @@ function Upload() {
 
     async function createTag(tagName, widgetID, color) {
         var tags = await miro.board.tags.get({title: tagName});
-
+console.log("widget ", widgetID); 
         if (tags.length) { // update
             var currentIDs = tags[0].widgetIds;
 
@@ -233,28 +233,32 @@ console.log(tags, foundWidgets);
             // var j = 0;
 
             if (foundWidgets.length) {
-                for (const widget of foundWidgets) {
-                    var widgets = [];
-                    widgets.push(widget);
-                    await updateCardsWithNewTags(widgets, tags);
+                
+                const tagColors = ['#FF1485', '#43E8B6', '#C9F223', '#FF9A51', '#E755FF','#5E0000']
+                for (let i = 0; i < tags.length; i++) {
+                    var tag = tags[i]
+                    //tag = tag.replace(/(\r\n|\n|\r)/gm, "");  console.log(tag);
+                    
+                    console.log('before', tag)
+                    const newTag = await createTag(tag, foundWidgets, tagColors[i]); 
+                    console.log('after', newTag)
+                }
+                
+
+                // for (const widget of foundWidgets) {
+                //     var widgets = [];
+                //     widgets.push(widget);
+                //     await updateCardsWithNewTags(widgets, tags);
 
                     // for (const tag of tags) {
                     //     await createTag(tag, widget, tagColors[j]);
                     //     j++;
                     // }
-                }
+                //}
             }
         } 
     }
 
     async function updateCardsWithNewTags(widget, tags) {
-        const tagColors = ['#FF1485', '#43E8B6', '#C9F223', '#FF9A51', '#E755FF','#5E0000']
-        for (let i = 0; i < tags.length; i++) {
-            var tag = tags[i]
-            //tag = tag.replace(/(\r\n|\n|\r)/gm, "");  console.log(tag);
-            
-            console.log('before', tag)
-            const newTag = await createTag(tag, widget, tagColors[i]); 
-            console.log('after', newTag)
-        }
+        
     }
