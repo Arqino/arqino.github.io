@@ -212,8 +212,12 @@ async function createTag(tagName, widgetID, color) {
         
         return await miro.board.tags.update({ id : tags[0].id, widgetIds: currentIDs});
     } else {
-        console.log(widgetID);
-        return await miro.board.tags.create({title: tagName, color: color, widgetIds: widgetID});
+        // console.log(widgetID);
+        var ids = [];
+        for (let i = 0; i < widgetID.length; i++) {
+            ids.push(widgetID[i].id);
+        } console.log(ids);
+        return await miro.board.tags.create({title: tagName, color: color, widgetIds: ids});
     }
 }
 
