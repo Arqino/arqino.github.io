@@ -220,8 +220,8 @@ function Upload() {
     }
 
     async function getCardsOnBoard(csvArray) {  
-        var cards =  await miro.board.widgets.get();
         
+        var cards =  await miro.board.widgets.get();
         
         for (const row of csvArray) { 
            var foundWidgets = cards.filter(element => element.title == row[0]);
@@ -229,7 +229,7 @@ function Upload() {
             for (var i = 1; i < row.length; i++) {
                 tags.push(row[i]);
             } 
-console.log(tags);
+console.log(tags, foundWidgets);
             // var j = 0;
 
             if (foundWidgets.length) {
@@ -252,8 +252,8 @@ console.log(tags);
         for (let i = 0; i < tags.length; i++) {
             var tag = tags[i]
             //tag = tag.replace(/(\r\n|\n|\r)/gm, "");  console.log(tag);
-            //console.log('before', tag)
-            const newTag = await createTag(tag, widget, tagColors[i]); return;
-            //console.log('after', newTag)
+            console.log('before', tag)
+            const newTag = await createTag(tag, widget, tagColors[i]); 
+            console.log('after', newTag)
         }
     }
