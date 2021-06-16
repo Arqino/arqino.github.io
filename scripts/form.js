@@ -228,7 +228,7 @@ async function getCardsOnBoard(csvArray) {
     for (const row of csvArray) { 
         var foundWidgets = cards.filter(element => element.title == row[0]);
         var tags = []; 
-        for (var i = 1; i < row.length; i++) {
+        for (var i = 2; i < row.length; i++) {
             tags.push(row[i]);
         } 
         console.log(tags, foundWidgets);
