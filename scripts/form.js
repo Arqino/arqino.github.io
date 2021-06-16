@@ -252,6 +252,7 @@ console.log(tags, foundWidgets);
         for (let i = 0; i < tags.length; i++) {
             var tag = tags[i]
             //tag = tag.replace(/(\r\n|\n|\r)/gm, "");  console.log(tag);
+            console.log(widget.title);
             console.log('before', tag)
             const newTag = await createTag(tag, widget, tagColors[i]); 
             console.log('after', newTag)
