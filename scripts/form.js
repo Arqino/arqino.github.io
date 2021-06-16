@@ -104,147 +104,140 @@ function CSVToArray( strData, strDelimiter ){
     }
 
 
-    function update() {
-        var fileUpload = document.getElementById("fileUpload_tags");
-        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
-        if (regex.test(fileUpload.value.toLowerCase())) {
-            if (typeof (FileReader) != "undefined") {
-                var reader = new FileReader();
-                var widgetID;
-                reader.onload = function (e) { 
-                    var result = CSVToArray(e.target.result, ",");
-                    result.splice(0, 1);
-                    getCardsOnBoard(result);
-                }
-                reader.readAsText(fileUpload.files[0]);
-            } else {
-                alert("This browser does not support HTML5.");
+function update() {
+    var fileUpload = document.getElementById("fileUpload_tags");
+    var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+    if (regex.test(fileUpload.value.toLowerCase())) {
+        if (typeof (FileReader) != "undefined") {
+            var reader = new FileReader();
+            var widgetID;
+            reader.onload = function (e) { 
+                var result = CSVToArray(e.target.result, ",");
+                result.splice(0, 1);
+                getCardsOnBoard(result);
             }
+            reader.readAsText(fileUpload.files[0]);
         } else {
-            alert("Please upload a valid CSV file.");
+            alert("This browser does not support HTML5.");
         }
+    } else {
+        alert("Please upload a valid CSV file.");
     }
+}
 
 function Upload() {
-        var fileUpload = document.getElementById("fileUpload");
-        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
-        if (regex.test(fileUpload.value.toLowerCase())) {
-            if (typeof (FileReader) != "undefined") {
-                var reader = new FileReader();
-                var widgetID;
-                reader.onload = function (e) { 
-                    var table = document.createElement("table");
+    var fileUpload = document.getElementById("fileUpload");
+    var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+    if (regex.test(fileUpload.value.toLowerCase())) {
+        if (typeof (FileReader) != "undefined") {
+            var reader = new FileReader();
+            var widgetID;
+            reader.onload = function (e) { 
+                var table = document.createElement("table");
 
-                    var result = CSVToArray(e.target.result, ",");
-                    // var result = csv.replace(/"[^"]+"/g, function(v) { 
-                        
-                    //    return v.replace(/(\r\n|\n|\r)/gm, "<br/>").replace(/,/g, '-');
-                    // }); 
-                    const cards = [] 
-                    var xParam = 2765.0162210794065; var yParam = 429.84819860612595; 
-                    var pRows = document.createElement("p");
-                    pRows.innerHTML = "Rows readed: <strong> " + result.length + " (including header)</strong>";
-                    var pCards = document.createElement("p");
-                    pCards.innerHTML = "Cards created: <strong>" + (result.length - 1) + "</strong>";
+                var result = CSVToArray(e.target.result, ",");
 
-                    for (var i = 1; i < result.length; i++) {
-                        if (i % 10 == 0) { xParam = xParam + 285; yParam = 429.84819860612595;  }
-                        yParam = yParam + 100;
-                        var card = {}; 
-                        card.type = "card";
-                        card.title = result[i][0];
-                        card.description = result[i][1]; 
-                        card.x =  xParam;
-                        card.y = yParam;
-                        var tags = [];
+                const cards = [] 
+                var xParam = 2765.0162210794065; var yParam = 429.84819860612595; 
+                var pRows = document.createElement("p");
+                pRows.innerHTML = "Rows readed: <strong> " + result.length + " (including header)</strong>";
+                var pCards = document.createElement("p");
+                pCards.innerHTML = "Cards created: <strong>" + (result.length - 1) + "</strong>";
 
-                        for (var j = 2; j < result[i].length; j++) {
-                            tags.push(result[i][j]);
-                        }
+                for (var i = 1; i < result.length; i++) {
+                    if (i % 10 == 0) { xParam = xParam + 285; yParam = 429.84819860612595;  }
+                    yParam = yParam + 100;
+                    var card = {}; 
+                    card.type = "card";
+                    card.title = result[i][0];
+                    card.description = result[i][1]; 
+                    card.x =  xParam;
+                    card.y = yParam;
+                    var tags = [];
 
-                        cards.push({
-                                data: card,
-                                tags: tags 
-                            });
+                    for (var j = 2; j < result[i].length; j++) {
+                        tags.push(result[i][j]);
                     }
 
-                    createCards(cards);
-
-                    var dvCSV = document.getElementById("dvCSV");
-                    dvCSV.innerHTML = ""; 
-                    dvCSV.appendChild(pRows); 
-                    dvCSV.appendChild(pCards);
+                    cards.push({
+                            data: card,
+                            tags: tags 
+                        });
                 }
-                reader.readAsText(fileUpload.files[0]);
-            } else {
-                alert("This browser does not support HTML5.");
+
+                createCards(cards);
+
+                var dvCSV = document.getElementById("dvCSV");
+                dvCSV.innerHTML = ""; 
+                dvCSV.appendChild(pRows); 
+                dvCSV.appendChild(pCards);
             }
+            reader.readAsText(fileUpload.files[0]);
         } else {
-            alert("Please upload a valid CSV file.");
+            alert("This browser does not support HTML5.");
         }
+    } else {
+        alert("Please upload a valid CSV file.");
     }
+}
 
 
-    async function createCards(cards) {
-        for (const card of cards) {
-            await createCard(card)
-        }
+async function createCards(cards) {
+    for (const card of cards) {
+        await createCard(card)
     }
+}
 
-    async function createCard(card) {
-        widgetID = await miro.board.widgets.create(card.data);
-        const tagColors = ['#F24726', '#00AA11', '#298AE2', '#FAD03A', '#0A8770','#8B3AF3', '#E405CE', '#D48918', '#4B5E00', '#0D1774']
-        for (let i = 0; i < card.tags.length; i++) {
-            var tag = card.tags[i]
-            tag = tag.replace(/(\r\n|\n|\r)/gm, "");
-            //console.log('before', tag)
-            const newTag = await createTag(tag, widgetID, tagColors[i])
-            //console.log('after', newTag)
-        }
+async function createCard(card) {
+    widgetID = await miro.board.widgets.create(card.data);
+    const tagColors = ['#F24726', '#00AA11', '#298AE2', '#FAD03A', '#0A8770','#8B3AF3', '#E405CE', '#D48918', '#4B5E00', '#0D1774']
+    for (let i = 0; i < card.tags.length; i++) {
+        var tag = card.tags[i]
+        tag = tag.replace(/(\r\n|\n|\r)/gm, "");
+        //console.log('before', tag)
+        const newTag = await createTag(tag, widgetID, tagColors[i])
+        //console.log('after', newTag)
     }
+}
 
-    async function createTag(tagName, widgetID, color) {
-        var tags = await miro.board.tags.get({title: tagName});
+async function createTag(tagName, widgetID, color) {
+    var tags = await miro.board.tags.get({title: tagName});
 
-        if (tags.length) { // update
-            var currentIDs = tags[0].widgetIds;
+    if (tags.length) { // update
+        var currentIDs = tags[0].widgetIds;
 
-            var id = widgetID[0] == undefined ? widgetID.id : widgetID[0].id
+        var id = widgetID[0] == undefined ? widgetID.id : widgetID[0].id
 
-            currentIDs.push(id);
-            
-            return await miro.board.tags.update({ id : tags[0].id, widgetIds: currentIDs});
-        } else {
-            console.log("widget ", widgetID); 
-            return await miro.board.tags.create({title: tagName, color: color, widgetIds: widgetID});
-        }
-    }
-
-    async function getCardsOnBoard(csvArray) {  
+        currentIDs.push(id);
         
-        var cards =  await miro.board.widgets.get();
-        
-        for (const row of csvArray) { 
-           var foundWidgets = cards.filter(element => element.title == row[0]);
-            var tags = []; 
-            for (var i = 1; i < row.length; i++) {
-                tags.push(row[i]);
-            } 
-console.log(tags, foundWidgets);
-            // var j = 0;
+        return await miro.board.tags.update({ id : tags[0].id, widgetIds: currentIDs});
+    } else {
+        return await miro.board.tags.create({title: tagName, color: color, widgetIds: widgetID});
+    }
+}
 
-            if (foundWidgets.length) {
-                
-                const tagColors = ['#FF1485', '#43E8B6', '#C9F223', '#FF9A51', '#E755FF','#5E0000']
-                for (let i = 0; i < tags.length; i++) {
-                    var tag = tags[i]
-                    //tag = tag.replace(/(\r\n|\n|\r)/gm, "");  console.log(tag);
-                    
-                    // console.log('before', tag)
-                    const newTag = await createTag(tag, foundWidgets, tagColors[i]); 
-                    // console.log('after', newTag)
-                }
-                
-            }
+async function getCardsOnBoard(csvArray) {  
+    
+    var cards =  await miro.board.widgets.get();
+    
+    for (const row of csvArray) { 
+        var foundWidgets = cards.filter(element => element.title == row[0]);
+        var tags = []; 
+        for (var i = 1; i < row.length; i++) {
+            tags.push(row[i]);
         } 
-    }
+        console.log(tags, foundWidgets);
+
+        if (foundWidgets.length) {
+            
+            const tagColors = ['#FF1485', '#43E8B6', '#C9F223', '#FF9A51', '#E755FF','#5E0000']
+            for (let i = 0; i < tags.length; i++) {
+                var tag = tags[i]
+                console.log('before', tag)
+                const newTag = await createTag(tag, foundWidgets, tagColors[i]); 
+                console.log('after', newTag)
+            }
+            
+        }
+    } 
+}   
