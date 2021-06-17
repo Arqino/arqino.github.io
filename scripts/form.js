@@ -134,7 +134,7 @@ function update() {
                 console.log('parsed', result);
                 getCardsOnBoard(result);
 
-                alert('Done!');
+                // alert('Done!');
             }
             reader.readAsText(fileUpload.files[0]);
         } else {
@@ -192,7 +192,7 @@ function Upload() {
                 dvCSV.appendChild(pRows); 
                 dvCSV.appendChild(pCards);
 
-                alert('Done!');
+                // alert('Done!');
             }
             reader.readAsText(fileUpload.files[0]);
         } else {
@@ -208,6 +208,7 @@ async function createCards(cards) {
     for (const card of cards) {
         await createCard(card)
     }
+    alert('Done!');
 }
 
 async function createCard(card) {
@@ -216,9 +217,7 @@ async function createCard(card) {
     for (let i = 0; i < card.tags.length; i++) {
         var tag = card.tags[i]
         tag = tag.replace(/(\r\n|\n|\r)/gm, "");
-        //console.log('before', tag)
         const newTag = await createTag(tag, widgetID, tagColors[i])
-        //console.log('after', newTag)
     }
 }
 
@@ -226,7 +225,7 @@ async function createTag(tagName, widgets, color) {
     var tags = await miro.board.tags.get({title: tagName});
 
     if (tags.length) {
-        console.log('Update tag' + tagName, widgets);
+        // console.log('Update tag' + tagName, widgets);
         var currentIDs = tags[0].widgetIds;
 
         // var id = widgets[0] == undefined ? widgets.id : widgets[0].id
@@ -236,7 +235,7 @@ async function createTag(tagName, widgets, color) {
         
         return await miro.board.tags.update({ id : tags[0].id, widgetIds: currentIDs});
     } else {
-        console.log('create tag' + tagName, widgets);
+        // console.log('create tag' + tagName, widgets);
         // console.log(widgets);
         var ids = [];
         for (let i = 0; i < widgets.length; i++) {
@@ -273,9 +272,9 @@ async function getCardsOnBoard(csvArray) {
         const tagColors = ['#FF1485', '#43E8B6', '#C9F223', '#FF9A51', '#E755FF','#5E0000']
         for (let i = 0; i < tags.length; i++) {
             var tag = tags[i]
-            console.log('before', tag)
+            // console.log('before', tag)
             const newTag = await createTag(tag, foundWidgets, tagColors[i]); 
-            console.log('after', newTag)
+            // console.log('after', newTag)
         }
     } 
 
@@ -284,4 +283,5 @@ async function getCardsOnBoard(csvArray) {
 
     let dvCSV = document.getElementById("dvCSV");
     dvCSV.appendChild(pCards);
+    alert('Done!');
 }   
