@@ -263,7 +263,7 @@ async function getCardsOnBoard(csvArray) {
         }
 
         var tags = []; 
-        for (let i = 1; i < row.length; i++) {
+        for (let i = 2; i < row.length; i++) {
             tags.push(row[i]);
         } 
         console.log(tags, foundWidgets);
