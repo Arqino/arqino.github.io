@@ -1,3 +1,11 @@
+function showFileName(name = "") {
+    let file = document.getElementById('fileUpload' + name);
+    let filename = file.files.item(0).name;
+    let chosen = document.getElementById('file' + name);
+
+    chosen.innerHTML = "Current file for upload is <strong>" + filename + "</strong>"; 
+}
+
 function openTab(evt, tabName) {
   // Declare all variables
   var i, tabcontent, tablinks;
@@ -17,6 +25,7 @@ function openTab(evt, tabName) {
   // Show the current tab, and add an "active" class to the button that opened the tab
   document.getElementById(tabName).style.display = "block";
   evt.currentTarget.className += " tab-active";
+  document.getElementById("dvCSV").innerHTML = "";
 }
 
 
@@ -113,8 +122,18 @@ function update() {
             var widgetID;
             reader.onload = function (e) { 
                 var result = CSVToArray(e.target.result, ",");
+
+                var pRows = document.createElement("p");
+                pRows.innerHTML = "Rows read: <strong> " + result.length + " (including header)</strong>";
+
                 result.splice(0, 1);
+
+                let dvCSV = document.getElementById("dvCSV");
+
+                dvCSV.appendChild(pRows); 
                 getCardsOnBoard(result);
+
+                alert('Done!');
             }
             reader.readAsText(fileUpload.files[0]);
         } else {
@@ -140,7 +159,7 @@ function Upload() {
                 const cards = [] 
                 var xParam = 2765.0162210794065; var yParam = 429.84819860612595; 
                 var pRows = document.createElement("p");
-                pRows.innerHTML = "Rows readed: <strong> " + result.length + " (including header)</strong>";
+                pRows.innerHTML = "Rows read: <strong> " + result.length + " (including header)</strong>";
                 var pCards = document.createElement("p");
                 pCards.innerHTML = "Cards created: <strong>" + (result.length - 1) + "</strong>";
 
@@ -167,10 +186,12 @@ function Upload() {
 
                 createCards(cards);
 
-                var dvCSV = document.getElementById("dvCSV");
+                let dvCSV = document.getElementById("dvCSV");
                 dvCSV.innerHTML = ""; 
                 dvCSV.appendChild(pRows); 
                 dvCSV.appendChild(pCards);
+
+                alert('Done!');
             }
             reader.readAsText(fileUpload.files[0]);
         } else {
@@ -224,6 +245,7 @@ async function createTag(tagName, widgetID, color) {
 async function getCardsOnBoard(csvArray) {  
     
     var cards =  await miro.board.widgets.get();
+    let cardsCounter = 0;
     
     for (const row of csvArray) { 
         var foundWidgets = cards.filter(element => element.title == row[0]);
@@ -234,6 +256,8 @@ async function getCardsOnBoard(csvArray) {
         console.log(tags, foundWidgets);
 
         if (foundWidgets.length) {
+
+            cardsCounter = cardsCounter + foundWidgets.length;
             
             const tagColors = ['#FF1485', '#43E8B6', '#C9F223', '#FF9A51', '#E755FF','#5E0000']
             for (let i = 0; i < tags.length; i++) {
@@ -245,4 +269,10 @@ async function getCardsOnBoard(csvArray) {
             
         }
     } 
+
+    var pCards = document.createElement("p");
+    pCards.innerHTML = "Cards updated: <strong>" + cardsCounter + "</strong>";
+
+    let dvCSV = document.getElementById("dvCSV");
+    dvCSV.appendChild(pCards);
 }   
