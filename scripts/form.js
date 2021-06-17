@@ -130,7 +130,8 @@ function update() {
 
                 let dvCSV = document.getElementById("dvCSV");
 
-                dvCSV.appendChild(pRows); 
+                dvCSV.appendChild(pRows);
+                console.log('parsed', result);
                 getCardsOnBoard(result);
 
                 alert('Done!');
@@ -221,23 +222,27 @@ async function createCard(card) {
     }
 }
 
-async function createTag(tagName, widgetID, color) {
+async function createTag(tagName, widgets, color) {
     var tags = await miro.board.tags.get({title: tagName});
 
-    if (tags.length) { // update
+    if (tags.length) {
+        console.log('Update tag' + tagName, widgets);
         var currentIDs = tags[0].widgetIds;
 
-        var id = widgetID[0] == undefined ? widgetID.id : widgetID[0].id
-
-        currentIDs.push(id);
+        // var id = widgets[0] == undefined ? widgets.id : widgets[0].id
+        for (let i = 0; i < widgets.length; i++) {
+            currentIDs.push(widgets[i].id);
+        }
         
         return await miro.board.tags.update({ id : tags[0].id, widgetIds: currentIDs});
     } else {
-        // console.log(widgetID);
+        console.log('create tag' + tagName, widgets);
+        // console.log(widgets);
         var ids = [];
-        for (let i = 0; i < widgetID.length; i++) {
-            ids.push(widgetID[i].id);
-        } console.log(ids);
+        for (let i = 0; i < widgets.length; i++) {
+            ids.push(widgets[i].id);
+        }
+        // console.log(ids);
         return await miro.board.tags.create({title: tagName, color: color, widgetIds: ids});
     }
 }
@@ -246,27 +251,31 @@ async function getCardsOnBoard(csvArray) {
     
     var cards =  await miro.board.widgets.get();
     let cardsCounter = 0;
+
+    console.log('args and cards', csvArray);
     
     for (const row of csvArray) { 
         var foundWidgets = cards.filter(element => element.title == row[0]);
+
+        if (foundWidgets.length === 0) {
+            console.log('no card with name ' + row[0] + '. Exiting.');
+            return;
+        }
+
         var tags = []; 
         for (let i = 1; i < row.length; i++) {
             tags.push(row[i]);
         } 
         console.log(tags, foundWidgets);
 
-        if (foundWidgets.length) {
-
-            cardsCounter = cardsCounter + foundWidgets.length;
+        cardsCounter = cardsCounter + foundWidgets.length;
             
-            const tagColors = ['#FF1485', '#43E8B6', '#C9F223', '#FF9A51', '#E755FF','#5E0000']
-            for (let i = 0; i < tags.length; i++) {
-                var tag = tags[i]
-                console.log('before', tag)
-                const newTag = await createTag(tag, foundWidgets, tagColors[i]); 
-                console.log('after', newTag)
-            }
-            
+        const tagColors = ['#FF1485', '#43E8B6', '#C9F223', '#FF9A51', '#E755FF','#5E0000']
+        for (let i = 0; i < tags.length; i++) {
+            var tag = tags[i]
+            console.log('before', tag)
+            const newTag = await createTag(tag, foundWidgets, tagColors[i]); 
+            console.log('after', newTag)
         }
     } 
 
