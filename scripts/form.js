@@ -293,7 +293,7 @@ let selectedWidgets;
 async function onAllWidgetsLoaded() {
 
     await miro.addListener('SELECTION_UPDATED', widget => {
-        console.log(widget.data);
+        //console.log(widget.data);
         let selectedCardsText = document.getElementById('selected-cards');
         selectedCardsText.innerHTML = widget.data.length;
         selectedWidgets = widget.data;
@@ -310,49 +310,61 @@ function exportCSV() {
 
     if (selectedWidgets.length) {
 
-        for (const widget of selectedWidgets) {
-            rows.push(getCardDetails(widget.id));
-        }
+        getCardDetails(selectedWidgets);
+
+        // for (const widget of selectedWidgets) {
+        //     getCardDetails(widget.id);
+        //     //rows.push(getCardDetails(widget.id));
+        // }
 
         // for (let i = 0; i < selectedWidgets.length; i++) {
             
         // }
     }
-console.log(rows);
+
     // for (let i = 0;)
     // const rows = [
     //     ["name1", "city1", "some other info"],
     //     ["name2", "city2", "more info"]
     // ];
 
-    let csvContent = "data:text/csv;charset=utf-8," 
-        + rows.map(e => e.join(",")).join("\n");
-        var encodedUri = encodeURI(csvContent);
-    var link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", filename + ".csv");
-    let dvCSV = document.getElementById("dvCSV");
-    dvCSV.appendChild(link);
+    // let csvContent = "data:text/csv;charset=utf-8," 
+    //     + rows.map(e => e.join(",")).join("\n");
+    //     var encodedUri = encodeURI(csvContent);
+    
+    // var link = document.createElement("a");
+    // link.setAttribute("href", encodedUri);
+    // link.setAttribute("download", filename + ".csv");
+    // let dvCSV = document.getElementById("dvCSV");
+    // dvCSV.appendChild(link);
 
-    // document.body.appendChild(link); // Required for FF
+    // // document.body.appendChild(link); // Required for FF
 
-    link.click(); // This will download the data file named "my_data.csv".
+    // link.click(); // This will download the data file named "my_data.csv".
 }
 
-async function getCardDetails(id) {
+async function getCardDetails(widgets) {
 
-    let card = await miro.board.widgets.get({id : id});
-    let result = [];
+    let rows = [];
 
-    if (card.length) {
-        result = [ card[0].title, card[0].description ];
+    for (widget of widgets) {
+        let card = await miro.board.widgets.get({id : id});
+        let result = [];
+
+        if (card.length) {
+            result = [ card[0].title, card[0].description ];
         
-        for (let i; i < card[0].tags.length; i++) {
-            result.push(card[0].tags[i])
+            for (let i; i < card[0].tags.length; i++) {
+                result.push(card[0].tags[i])
+            }
         }
+
+        rows.push(result);
     }
 
-    return result;
+    
+
+    console.log(rows);
 
 }
 
