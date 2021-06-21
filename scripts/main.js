@@ -27,6 +27,6 @@ miro.onReady(() => {
         }
       })
 
-      miro.addListener('SELECTION_UPDATED', selectedWidgets(widget));
+      //miro.addListener('SELECTION_UPDATED', selectedWidgets(widget));
 
     })
