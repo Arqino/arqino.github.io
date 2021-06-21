@@ -327,8 +327,8 @@ function createCSV(rows) {
     var link = document.createElement("a");
     link.setAttribute("href", encodedUri);
     link.setAttribute("download", filename + ".csv");
-    let dvCSV = document.getElementById("dvCSV");
-    dvCSV.appendChild(link);
+    // let dvCSV = document.getElementById("dvCSV");
+    // dvCSV.appendChild(link);
     link.click();
 }
 
