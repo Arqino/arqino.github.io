@@ -349,6 +349,7 @@ function createCSV(rows) {
     link.setAttribute("download", filename + ".csv");
     let dvCSV = document.getElementById("dvCSV");
     dvCSV.appendChild(link);
+    link.click();
 }
 
 async function getCardDetails(widgets) {
