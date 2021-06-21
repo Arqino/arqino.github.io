@@ -287,30 +287,17 @@ async function getCardsOnBoard(csvArray) {
 } 
 
 
-// function selectedWidgets(widget) {
-//     console.log(widget);
-// }
+function selectedWidgets(widget) {
+    console.log(widget);
+}
 
 // For ALL_WIDGETS_LOADED event, we need to check if widgets
 // are already loaded before subscription
 async function onAllWidgetsLoaded() {
 
-    miro.addListener('SELECTION_UPDATED', widget => {
-        console.log(widget);
-    })
-
-  // const areAllWidgetsLoaded = await miro.board.widgets.areAllWidgetsLoaded()
-  // if (areAllWidgetsLoaded) {
-  //   //callback()
-  // } else {
-    
-  // }
+    miro.addListener('SELECTION_UPDATED', selectedWidgets(widget))
 }
 onAllWidgetsLoaded(() => {
   console.log('all widgets are loaded')
 })
-
-
-// miro.addListener('SELECTION_UPDATED', widget => {
-//   console.log(widget)
-// })  
+ 

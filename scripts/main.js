@@ -19,14 +19,8 @@ miro.onReady(() => {
                     })
                 }
             }
-
-            //() => {
-              //miro.board.ui.openLeftSidebar('../form.html');
-            //}
           }
         }
       })
-
-      //miro.addListener('SELECTION_UPDATED', selectedWidgets(widget));
 
     })
