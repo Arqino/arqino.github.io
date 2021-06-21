@@ -312,26 +312,6 @@ function exportCSV() {
 
         getCardDetails(selectedWidgets);
     }
-
-    // for (let i = 0;)
-    // const rows = [
-    //     ["name1", "city1", "some other info"],
-    //     ["name2", "city2", "more info"]
-    // ];
-
-    // let csvContent = "data:text/csv;charset=utf-8," 
-    //     + rows.map(e => e.join(",")).join("\n");
-    //     var encodedUri = encodeURI(csvContent);
-    
-    // var link = document.createElement("a");
-    // link.setAttribute("href", encodedUri);
-    // link.setAttribute("download", filename + ".csv");
-    // let dvCSV = document.getElementById("dvCSV");
-    // dvCSV.appendChild(link);
-
-    // // document.body.appendChild(link); // Required for FF
-
-    // link.click(); // This will download the data file named "my_data.csv".
 }
 
 
@@ -354,7 +334,7 @@ function createCSV(rows) {
 
 async function getCardDetails(widgets) {
 
-    let rows = [];
+    let rows = ["Title", "Description", "Tag 1", "Tag 2", "Tag 3", "Tag 4", "Tag 5"];
 
     for (widget of widgets) {
         let card = await miro.board.widgets.get({id : widget.id});
