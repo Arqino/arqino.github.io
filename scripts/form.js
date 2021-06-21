@@ -304,22 +304,13 @@ onAllWidgetsLoaded(() => {
 })
 
 function exportCSV() {
-    let filename = document.getElementById('export_filename').value;
+    
 
     let rows = [];
 
     if (selectedWidgets.length) {
 
         getCardDetails(selectedWidgets);
-
-        // for (const widget of selectedWidgets) {
-        //     getCardDetails(widget.id);
-        //     //rows.push(getCardDetails(widget.id));
-        // }
-
-        // for (let i = 0; i < selectedWidgets.length; i++) {
-            
-        // }
     }
 
     // for (let i = 0;)
@@ -345,6 +336,9 @@ function exportCSV() {
 
 
 function createCSV(rows) {
+
+    let filename = document.getElementById('export_filename').value;
+
     let csvContent = "data:text/csv;charset=utf-8," 
         + rows.map(e => e.join(",")).join("\n");
     
