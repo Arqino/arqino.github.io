@@ -318,7 +318,7 @@ function exportCSV() {
             
         // }
     }
-
+console.log(rows);
     // for (let i = 0;)
     // const rows = [
     //     ["name1", "city1", "some other info"],
