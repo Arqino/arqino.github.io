@@ -286,10 +286,7 @@ async function getCardsOnBoard(csvArray) {
     alert('Done!');
 } 
 
-
-// function selectedWidgets(widget) {
-//     console.log(widget);
-// }
+let selectedWidgets;
 
 // For ALL_WIDGETS_LOADED event, we need to check if widgets
 // are already loaded before subscription
@@ -299,9 +296,64 @@ async function onAllWidgetsLoaded() {
         console.log(widget.data);
         let selectedCardsText = document.getElementById('selected-cards');
         selectedCardsText.innerHTML = widget.data.length;
+        selectedWidgets = widget.data;
     })
 }
 onAllWidgetsLoaded(() => {
   console.log('all widgets are loaded')
 })
- 
+
+function export() {
+    let filename = document.getElementById('export_filename').value;
+
+    let rows = [];
+
+    if (selectedWidgets.length) {
+
+        for (const widget of selectedWidgets) {
+            rows.push(getCardDetails(widget.id));
+        }
+
+        // for (let i = 0; i < selectedWidgets.length; i++) {
+            
+        // }
+    }
+
+    // for (let i = 0;)
+    // const rows = [
+    //     ["name1", "city1", "some other info"],
+    //     ["name2", "city2", "more info"]
+    // ];
+
+    let csvContent = "data:text/csv;charset=utf-8," 
+        + rows.map(e => e.join(",")).join("\n");
+        var encodedUri = encodeURI(csvContent);
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", filename + ".csv");
+    let dvCSV = document.getElementById("dvCSV");
+    dvCSV.appendChild(link);
+
+    // document.body.appendChild(link); // Required for FF
+
+    link.click(); // This will download the data file named "my_data.csv".
+}
+
+async function getCardDetails(id) {
+
+    let card = await miro.board.widgets.get({id : id});
+    let result = [];
+
+    if (card.length) {
+        result = [ card[0].title, card[0].description ];
+        
+        for (let i; i < card[0].tags.length; i++) {
+            result.push(card[0].tags[i])
+        }
+    }
+
+    return result;
+
+}
+
+    
