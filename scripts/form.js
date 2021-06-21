@@ -348,7 +348,7 @@ async function getCardDetails(widgets) {
     let rows = [];
 
     for (widget of widgets) {
-        let card = await miro.board.widgets.get({id : id});
+        let card = await miro.board.widgets.get({id : widget.id});
         let result = [];
 
         if (card.length) {
