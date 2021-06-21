@@ -284,4 +284,9 @@ async function getCardsOnBoard(csvArray) {
     let dvCSV = document.getElementById("dvCSV");
     dvCSV.appendChild(pCards);
     alert('Done!');
-}   
+} 
+
+
+miro.addListener('SELECTION_UPDATED', widget => {
+  console.log(widget)
+})  

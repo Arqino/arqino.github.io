@@ -82,7 +82,7 @@ ul {
     margin-left: 15px;
     margin-top: 8px;
 }
-#update {
+#update, #export {
     display: none;
 }
 .upload-block {
@@ -111,7 +111,10 @@ ul {
       <div class="tab-text tab-badge">Create cards</div>
     </div>
     <div tabindex="0" class="tab" onclick="openTab(event, 'update')">
-      <div class="tab-text tab-badge" data-field="update">Update cards</div>
+      <div class="tab-text tab-badge">Update cards</div>
+    </div>
+    <div tabindex="0" class="tab" onclick="openTab(event, 'export')">
+      <div class="tab-text tab-badge">Export cards</div>
     </div>
   </div>
  </div>
@@ -133,13 +136,13 @@ ul {
         </form>
     </div>
     <div style="margin-top: 20px;" id="update" class="tabcontent">
-    <h1 class="h1">Update existing cards with new tags</h1>
-<p class="p-medium">You can add new tags to existing cards by uploading a CSV with columns:</p>
-<ul>
-    <li>Card name <span class="label label-warning">Name should match as the card title on a board</span></li>
-    <li>Card description (won't be updated)</li>
-    <li>New tag name (1 or more columns with tag names)</li>
-</ul>
+        <h1 class="h1">Update existing cards with new tags</h1>
+        <p class="p-medium">You can add new tags to existing cards by uploading a CSV with columns:</p>
+        <ul>
+            <li>Card name <span class="label label-warning">Name should match as the card title on a board</span></li>
+            <li>Card description (won't be updated)</li>
+            <li>New tag name (1 or more columns with tag names)</li>
+        </ul>
         <form>
             <div class="upload-block">
                 <label class="custom-file-upload">
@@ -148,12 +151,23 @@ ul {
                 </label>
                 <p class="p-small" id="file_tags"></p>
             </div>
-            <input type="button" id="upload" value="Update Tags" class="button button-primary" onclick="update()">
-
-            
+            <input type="button" id="upload" value="Update Tags" class="button button-primary" onclick="update()">            
         </form>
 
-</div>
+    </div>
+
+    <div id="export" class="tabcontent">
+        <h1 class="h1">Export selected cards to CSV</h1>
+        <p class="p-medium">Select cards you want to export, add a file name and click "Export cards"</p>
+        <form>
+            <div class="form-group">
+              <label>Enter filename:</label>
+              <input class="input" type="text" name="export_filename"/>
+             </div>
+            <p id="selected-cards" class="p-medium">Selected cards: <span>0</span></p>
+            <input type="button" id="upload" value="Export Cards" class="button button-primary" onclick="export()">            
+        </form>
+    </div>
 <hr />
             <div id="dvCSV"></div>
     <div class="bottom-bar"><i class="icon icon-help-question"></i><a href="https://arqino.github.io/Sample_Import.csv">Download template</a></div>
