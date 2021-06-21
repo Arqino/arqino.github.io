@@ -296,7 +296,7 @@ async function getCardsOnBoard(csvArray) {
 async function onAllWidgetsLoaded() {
 
     await miro.addListener('SELECTION_UPDATED', widget => {
-        console.log(widget);
+        console.log(widget.data);
     })
 }
 onAllWidgetsLoaded(() => {
