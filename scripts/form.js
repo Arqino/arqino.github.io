@@ -354,7 +354,7 @@ async function getCardDetails(widgets) {
         if (card.length) {
             result = [ card[0].title, card[0].description ];
         
-            for (let i; i < card[0].tags.length; i++) {
+            for (let i = 0; i < card[0].tags.length; i++) {
                 result.push(card[0].tags[i].title)
             }
         }
