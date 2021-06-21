@@ -343,6 +343,20 @@ function exportCSV() {
     // link.click(); // This will download the data file named "my_data.csv".
 }
 
+
+function createCSV(rows) {
+    let csvContent = "data:text/csv;charset=utf-8," 
+        + rows.map(e => e.join(",")).join("\n");
+    
+    var encodedUri = encodeURI(csvContent);
+    
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", filename + ".csv");
+    let dvCSV = document.getElementById("dvCSV");
+    dvCSV.appendChild(link);
+}
+
 async function getCardDetails(widgets) {
 
     let rows = [];
@@ -362,6 +376,7 @@ async function getCardDetails(widgets) {
         rows.push(result);
     }
 
+    createCSV(rows);
     
 
     console.log(rows);
