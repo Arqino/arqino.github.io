@@ -297,6 +297,8 @@ async function onAllWidgetsLoaded() {
 
     await miro.addListener('SELECTION_UPDATED', widget => {
         console.log(widget.data);
+        let selectedCardsText = document.getElementById('selected-cards');
+        selectedCardsText.innerHTML = widget.data.length;
     })
 }
 onAllWidgetsLoaded(() => {
