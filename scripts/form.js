@@ -303,7 +303,7 @@ onAllWidgetsLoaded(() => {
   console.log('all widgets are loaded')
 })
 
-function export() {
+function exportCSV() {
     let filename = document.getElementById('export_filename').value;
 
     let rows = [];
