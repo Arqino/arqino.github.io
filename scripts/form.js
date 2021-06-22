@@ -320,6 +320,8 @@ function exportCSV() {
 
         getCardDetails(selectedWidgets);
     }
+
+    console.log(rows);
 }
 
 
