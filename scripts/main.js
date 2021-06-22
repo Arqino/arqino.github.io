@@ -1,5 +1,7 @@
 miro.onReady(() => {
 
+
+
       miro.initialize({
         extensionPoints: {
           toolbar: {
@@ -28,5 +30,11 @@ miro.onReady(() => {
       })
 
       // miro.addListener('SELECTION_UPDATED', selectedWidgets(widget));
+      await miro.addListener('SELECTION_UPDATED', widget => {
+        console.log(widget.data);
+        // let selectedCardsText = document.getElementById('selected-cards');
+        // selectedCardsText.innerHTML = widget.data.length;
+        // selectedWidgets = widget.data;
+    })
 
     })
