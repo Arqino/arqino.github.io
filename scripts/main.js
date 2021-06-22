@@ -1,3 +1,5 @@
+var selectedWidgets1;
+
 miro.onReady(() => {
 
 
@@ -34,7 +36,8 @@ miro.onReady(() => {
         console.log(widget.data);
         // let selectedCardsText = document.getElementById('selected-cards');
         // selectedCardsText.innerHTML = widget.data.length;
-        // selectedWidgets = widget.data;
+        selectedWidgets1 = widget.data;
+        selectedWidgets = widget.data;
     })
 
     })
