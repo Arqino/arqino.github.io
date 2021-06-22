@@ -288,33 +288,15 @@ async function getCardsOnBoard(csvArray) {
 
 var selectedWidgets;
 
-// For ALL_WIDGETS_LOADED event, we need to check if widgets
-// are already loaded before subscription
-// async function onAllWidgetsLoaded() {
-
-//     // await miro.addListener('SELECTION_UPDATED', widget => {
-//     //     //console.log(widget.data);
-//     //     let selectedCardsText = document.getElementById('selected-cards');
-//     //     selectedCardsText.innerHTML = widget.data.length;
-//     //     selectedWidgets = widget.data;
-//     // })
-// }
-// onAllWidgetsLoaded(() => {
-//   console.log('all widgets are loaded')
-// })
-
 miro.onReady(() => {
     miro.addListener('SELECTION_UPDATED', widget => {  
         let selectedCardsText = document.getElementById('selected-cards');
         selectedCardsText.innerHTML = widget.data.length;
         selectedWidgets = widget.data;
-        console.log(selectedWidgets);
     })
 })
 
 function exportCSV() {
-
-    console.log("Export selected: ", selectedWidgets, selectedWidgets.length); 
 
     if (selectedWidgets.length) {
 
@@ -343,7 +325,7 @@ function createCSV(rows) {
 
 async function getCardDetails(widgets) {
 
-    let rows = [];// ["Title", "Description", "Tag 1", "Tag 2", "Tag 3", "Tag 4", "Tag 5"];
+    let rows = [];
     rows.push(["Title", "Description", "Tag 1", "Tag 2", "Tag 3", "Tag 4", "Tag 5"]);
 
     for (widget of widgets) {
@@ -351,6 +333,9 @@ async function getCardDetails(widgets) {
         let result = [];
 
         if (card.length) {
+            // let title = card[0].title.replace(/(<([^>]+)>)/gi, "");
+            // let description = card[0].description.replace(/(<([^>]+)>)/gi, "");
+
             result = [ card[0].title, card[0].description ];
         
             for (let i = 0; i < card[0].tags.length; i++) {
@@ -360,8 +345,6 @@ async function getCardDetails(widgets) {
 
         rows.push(result);
     }
-
-    console.log("Rows created: ", rows); 
 
     createCSV(rows);
     
