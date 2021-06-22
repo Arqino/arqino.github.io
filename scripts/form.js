@@ -303,8 +303,8 @@ onAllWidgetsLoaded(() => {
   console.log('all widgets are loaded')
 })
 
-miro.onReady(() => {
-    miro.addListener('SELECTION_UPDATED', widget => {  cosnole.log(widget.data)  })
+miro.onReady(async () => {
+    await miro.addListener('SELECTION_UPDATED', widget => {  console.log(widget.data)  })
 })
 
 function exportCSV() {
