@@ -313,16 +313,14 @@ miro.onReady(() => {
 })
 
 function exportCSV() {
-    
 
-    let rows = [];
+    console.log(selectedWidgets); 
 
     if (selectedWidgets.length) {
 
         getCardDetails(selectedWidgets);
     }
 
-    console.log(rows);
 }
 
 
