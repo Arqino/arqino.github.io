@@ -360,10 +360,12 @@ async function getCardDetails(widgets) {
         rows.push(result);
     }
 
+    console.log("Rows created: ", rows); return;
+
     createCSV(rows);
     
 
-    console.log(rows);
+    
 
 }
 
