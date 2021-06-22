@@ -286,25 +286,29 @@ async function getCardsOnBoard(csvArray) {
     alert('Done!');
 } 
 
-let selectedWidgets;
+var selectedWidgets;
 
 // For ALL_WIDGETS_LOADED event, we need to check if widgets
 // are already loaded before subscription
-async function onAllWidgetsLoaded() {
+// async function onAllWidgetsLoaded() {
 
-    // await miro.addListener('SELECTION_UPDATED', widget => {
-    //     //console.log(widget.data);
-    //     let selectedCardsText = document.getElementById('selected-cards');
-    //     selectedCardsText.innerHTML = widget.data.length;
-    //     selectedWidgets = widget.data;
-    // })
-}
-onAllWidgetsLoaded(() => {
-  console.log('all widgets are loaded')
-})
+//     // await miro.addListener('SELECTION_UPDATED', widget => {
+//     //     //console.log(widget.data);
+//     //     let selectedCardsText = document.getElementById('selected-cards');
+//     //     selectedCardsText.innerHTML = widget.data.length;
+//     //     selectedWidgets = widget.data;
+//     // })
+// }
+// onAllWidgetsLoaded(() => {
+//   console.log('all widgets are loaded')
+// })
 
 miro.onReady(async () => {
-    await miro.addListener('SELECTION_UPDATED', widget => {  console.log(widget.data)  })
+    await miro.addListener('SELECTION_UPDATED', widget => {  
+        let selectedCardsText = document.getElementById('selected-cards');
+        selectedCardsText.innerHTML = widget.data.length;
+        selectedWidgets = widget.data;
+    })
 })
 
 function exportCSV() {
