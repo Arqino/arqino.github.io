@@ -314,7 +314,7 @@ miro.onReady(() => {
 
 function exportCSV() {
 
-    console.log("Export selected: " + selectedWidgets); 
+    console.log("Export selected: ", selectedWidgets, selectedWidgets.length); 
 
     if (selectedWidgets.length) {
 
