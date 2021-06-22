@@ -32,12 +32,12 @@ miro.onReady(() => {
       })
 
       // miro.addListener('SELECTION_UPDATED', selectedWidgets(widget));
-      miro.addListener('SELECTION_UPDATED', widget => {
-        console.log(widget.data);
-        // let selectedCardsText = document.getElementById('selected-cards');
-        // selectedCardsText.innerHTML = widget.data.length;
-        // selectedWidgets1 = widget.data;
-        window.selectedWidgets = widget.data;
-    })
+    //   miro.addListener('SELECTION_UPDATED', widget => {
+    //     console.log(widget.data);
+    //     // let selectedCardsText = document.getElementById('selected-cards');
+    //     // selectedCardsText.innerHTML = widget.data.length;
+    //     // selectedWidgets1 = widget.data;
+    //     window.selectedWidgets = widget.data;
+    // })
 
     })
