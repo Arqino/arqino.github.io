@@ -303,8 +303,8 @@ var selectedWidgets;
 //   console.log('all widgets are loaded')
 // })
 
-miro.onReady(async () => {
-    await miro.addListener('SELECTION_UPDATED', widget => {  
+miro.onReady(() => {
+    miro.addListener('SELECTION_UPDATED', widget => {  
         let selectedCardsText = document.getElementById('selected-cards');
         selectedCardsText.innerHTML = widget.data.length;
         selectedWidgets = widget.data;
