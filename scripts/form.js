@@ -343,7 +343,8 @@ function createCSV(rows) {
 
 async function getCardDetails(widgets) {
 
-    let rows = ["Title", "Description", "Tag 1", "Tag 2", "Tag 3", "Tag 4", "Tag 5"];
+    let rows = [];// ["Title", "Description", "Tag 1", "Tag 2", "Tag 3", "Tag 4", "Tag 5"];
+    rows.push(["Title", "Description", "Tag 1", "Tag 2", "Tag 3", "Tag 4", "Tag 5"]);
 
     for (widget of widgets) {
         let card = await miro.board.widgets.get({id : widget.id});
@@ -360,7 +361,7 @@ async function getCardDetails(widgets) {
         rows.push(result);
     }
 
-    console.log("Rows created: ", rows); return;
+    console.log("Rows created: ", rows); 
 
     createCSV(rows);
     
