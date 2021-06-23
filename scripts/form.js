@@ -169,7 +169,7 @@ function Upload() {
                     yParam = yParam + 100;
                     var card = {}; 
                     card.type = "card";
-                    card.title = result[i][0];
+                    card.title = i + ". " + result[i][0];
                     card.description = result[i][1]; 
                     card.x =  xParam;
                     card.y = yParam;
@@ -318,8 +318,12 @@ function createCSV(rows) {
     var link = document.createElement("a");
     link.setAttribute("href", encodedUri);
     link.setAttribute("download", filename + ".csv");
-    // let dvCSV = document.getElementById("dvCSV");
-    // dvCSV.appendChild(link);
+    let dvCSV = document.getElementById("dvCSV");
+    var pCards = document.createElement("p");
+    let selectedCardsText = document.getElementById('selected-cards');
+    pCards.innerHTML = selectedCardsText.innerText + " cards exported";
+    dvCSV.appendChild(pCards);
+    
     link.click();
 }
 
