@@ -169,13 +169,13 @@ function Upload() {
                     yParam = yParam + 100;
                     var card = {}; 
                     card.type = "card";
-                    card.title = i + ". " + result[i][0];
-                    card.description = result[i][1]; 
+                    card.title = result[i][0] + ". " + result[i][1];
+                    card.description = result[i][2]; 
                     card.x =  xParam;
                     card.y = yParam;
                     var tags = [];
 
-                    for (var j = 2; j < result[i].length; j++) {
+                    for (var j = 3; j < result[i].length; j++) {
                         tags.push(result[i][j]);
                     }
 
@@ -250,16 +250,15 @@ async function getCardsOnBoard(csvArray) {
     
     var cards =  await miro.board.widgets.get();
     let cardsCounter = 0;
-    let rowCounter = 1;
 
     console.log('args and cards', csvArray);
     
     for (const row of csvArray) { 
-        var foundWidgets = cards.filter(element => element.title.indexOf(rowCounter + ".") > -1);
+        var foundWidgets = cards.filter(element => element.title.indexOf(row[0] + ".") > -1);
         //var foundWidgets = cards.filter(element => element.title == row[0]);
 
         if (foundWidgets.length === 0) {
-            console.log('no card with name ' + row[0] + '. Exiting.');
+            console.log('no card with ID ' + row[0] + '. Exiting.');
             return;
         }
 
@@ -272,7 +271,7 @@ async function getCardsOnBoard(csvArray) {
         cardsCounter = cardsCounter + foundWidgets.length;
         
 
-        await updateWidgets(foundWidgets, row, rowCounter);
+        await updateWidgets(foundWidgets, row);
             
         const tagColors = ['#FF1485', '#43E8B6', '#C9F223', '#FF9A51', '#E755FF','#5E0000']
         for (let i = 0; i < tags.length; i++) {
@@ -281,7 +280,6 @@ async function getCardsOnBoard(csvArray) {
             const newTag = await createTag(tag, foundWidgets, tagColors[i]); 
             // console.log('after', newTag)
         }
-        rowCounter = rowCounter + 1;
     } 
 
     var pCards = document.createElement("p");
@@ -292,10 +290,10 @@ async function getCardsOnBoard(csvArray) {
     alert('Done!');
 } 
 
-async function updateWidgets(widgets, row, rowCounter) {
+async function updateWidgets(widgets, row) {
 
     for (widget of widgets) {
-        await miro.board.widgets.update({ id : widget.id, title: rowCounter + ". " + row[0], description: row[1]})
+        await miro.board.widgets.update({ id : widget.id, title: row[0] + ". " + row[1], description: row[1]})
     }    
 }
 
