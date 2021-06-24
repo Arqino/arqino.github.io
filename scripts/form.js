@@ -173,6 +173,9 @@ function Upload() {
                     card.description = result[i][2]; 
                     card.x =  xParam;
                     card.y = yParam;
+                    card.metadata = {
+                        "3074457359115046134" : { "ID" :  result[i][0] }
+                    };
                     var tags = [];
 
                     for (var j = 3; j < result[i].length; j++) {
