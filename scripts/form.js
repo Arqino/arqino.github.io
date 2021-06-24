@@ -341,7 +341,7 @@ function createCSV(rows) {
 async function getCardDetails(widgets) {
 
     let rows = [];
-    rows.push(["Title", "Description", "Tag 1", "Tag 2", "Tag 3", "Tag 4", "Tag 5"]);
+    rows.push(["ID", "Title", "Description", "Tag 1", "Tag 2", "Tag 3", "Tag 4", "Tag 5"]);
 
     for (widget of widgets) {
         let card = await miro.board.widgets.get({id : widget.id});
@@ -350,8 +350,9 @@ async function getCardDetails(widgets) {
         if (card.length) {
             // let title = card[0].title.replace(/(<([^>]+)>)/gi, "");
             // let description = card[0].description.replace(/(<([^>]+)>)/gi, "");
+            let title = card[0].title.split('. ');
 
-            result = [ card[0].title, card[0].description ];
+            result = [ title[0], title[1], card[0].description ];
         
             for (let i = 0; i < card[0].tags.length; i++) {
                 result.push(card[0].tags[i].title)
