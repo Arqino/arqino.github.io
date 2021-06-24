@@ -293,7 +293,7 @@ async function getCardsOnBoard(csvArray) {
 async function updateWidgets(widgets, row) {
 
     for (widget of widgets) {
-        await miro.board.widgets.update({ id : widget.id, title: row[0] + ". " + row[1], description: row[1]})
+        await miro.board.widgets.update({ id : widget.id, title: row[0] + ". " + row[1], description: row[2]})
     }    
 }
 
