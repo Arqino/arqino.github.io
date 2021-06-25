@@ -257,7 +257,7 @@ async function getCardsOnBoard(csvArray) {
     console.log('args and cards', csvArray);
     
     for (const row of csvArray) { 
-        var foundWidgets = cards.filter(element => element.title.indexOf(row[0] + ".") > -1);
+        var foundWidgets = cards.filter(element => element.metadata["3074457359115046134"].ID == row[0]);
         //var foundWidgets = cards.filter(element => element.title == row[0]);
 
         if (foundWidgets.length === 0) {
