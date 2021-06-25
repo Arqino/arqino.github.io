@@ -1,6 +1,6 @@
 ﻿ID,Feature,Headline,Theme,Epic,Customer Importance,Perception Changing,Revenue Impact,Efficiency Impact,Business Change,Pre-Tech Priority Score
-19292, Log in SSO, UPDATED Ability for the users to log into the portal in a secure manner,Account Management,User Authentication,6,2,1.5,4.5,6,486
-1111, Register UP,Ability for the users to register online for the KF portal with a registration page / form,Account Management,User Authentication,6,2,1.5,4.5,6,486
+19292, Log in, Ability for the users to log into the portal in a secure manner,Account Management,User Authentication,6,2,1.5,4.5,6,486
+1111, Register, Ability for the users to register online for the KF portal with a registration page / form,Account Management,User Authentication,6,2,1.5,4.5,6,486
 1121, Logout,Ability for the users to logout of the portal in a secure manner,Account Management,User Authentication,6,2,1.5,4.5,6,486
 1938, Reset password,Ability for the user to reset their password at any point / or if lost / can't remember,Account Management,User Authentication,6,2,1.5,4.5,6,486
 38383, Password rules,Ability to build into the portal strong user password controls,Account Management,User Authentication,6,2,1.5,4.5,6,486
